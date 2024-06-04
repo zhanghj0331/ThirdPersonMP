@@ -15,6 +15,37 @@
 //////////////////////////////////////////////////////////////////////////
 // AThirdPersonMPCharacter
 
+void AThirdPersonMPCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	// 获取第一个玩家控制器
+	if (IsLocallyControlled())
+	{
+		APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+		if (PlayerController)
+		{
+			// 获取控制的角色
+			APawn* ControlledPawn = PlayerController->GetPawn();
+			if (ControlledPawn)
+			{
+				// 获取角色的名字
+				FString PawnName = ControlledPawn->GetName();
+				GEngine->AddOnScreenDebugMessage(-1, 100009.f, FColor::Yellow, PawnName);
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("PlayerController does not control any Pawn."));
+			}
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("No PlayerController found."));
+		}
+	}
+
+}
+
 AThirdPersonMPCharacter::AThirdPersonMPCharacter()
 {
 	// Set size for collision capsule
@@ -74,12 +105,12 @@ void AThirdPersonMPCharacter::OnHealthUpdate()
 	if (IsLocallyControlled())
 	{
 		FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
+		GEngine->AddOnScreenDebugMessage(-1, 100009.f, FColor::Green, healthMessage);
 
 		if (CurrentHealth <= 0)
 		{
 			FString deathMessage = FString::Printf(TEXT("You have been killed."));
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
+			GEngine->AddOnScreenDebugMessage(-1, 100009.f, FColor::Red, deathMessage);
 		}
 	}
 
@@ -87,7 +118,7 @@ void AThirdPersonMPCharacter::OnHealthUpdate()
 	if (GetLocalRole() == ROLE_Authority)
 	{
 		FString healthMessage = FString::Printf(TEXT("%s now has %f health remaining."), *GetFName().ToString(), CurrentHealth);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
+		GEngine->AddOnScreenDebugMessage(-1, 100009.f, FColor::Green, healthMessage);
 	}
 
 	//在所有机器上都执行的函数。 

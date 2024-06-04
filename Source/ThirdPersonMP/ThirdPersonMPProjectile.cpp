@@ -50,7 +50,7 @@ AThirdPersonMPProjectile::AThirdPersonMPProjectile()
 
 	//定义投射物移动组件。
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovement"));
-	ProjectileMovementComponent->SetUpdatedComponent(SphereComponent);
+	ProjectileMovementComponent->SetUpdatedComponent(SphereComponent); // 使用SphereComponent的位置与旋转
 	ProjectileMovementComponent->InitialSpeed = 1500.0f;
 	ProjectileMovementComponent->MaxSpeed = 1500.0f;
 	ProjectileMovementComponent->bRotationFollowsVelocity = true;
